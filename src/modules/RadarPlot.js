@@ -4,7 +4,7 @@ import * as d3 from './d3.min.js';
 
 export default class RadarPlot {
 
-  constructor(root_group, width, centre, axes, data, lineColour, title) {
+  constructor(root_group, width, centre, axes, data, lineColour, title, subtitle) {
 
     this.root_group = root_group;
     this.width = width;
@@ -12,6 +12,7 @@ export default class RadarPlot {
     this.axes = axes;
     this.data = data;
     this.title = title;
+    this.subtitle = subtitle;
 
     this.lineColour = lineColour;
 
@@ -63,9 +64,9 @@ export default class RadarPlot {
 
     this.renderTitle();
     this.renderAxes();
-    this.renderDataLine();
-    this.renderPoints();
     this.renderIcons();
+    this.renderPoints();
+    this.renderDataLine();
 
 
   }
@@ -75,7 +76,7 @@ export default class RadarPlot {
     this.plot.append("text")
     .classed("diagramTitle", true)
     .classed("diagramSubTitle", true)
-    .text("deaths per")
+    .text("by")
     .attr("x",this.width/2)
     .attr("y",this.width/2 - (this.width * 0.05))
     .style("font-size","2vh")
@@ -84,7 +85,14 @@ export default class RadarPlot {
     .classed("diagramTitle", true)
     .text(this.title)
     .attr("x",this.width/2)
-    .attr("y",this.width/2 + (this.width * 0.07))
+    .attr("y",this.width/2 + (this.width * 0.03))
+
+    this.plot.append("text")
+    // .classed("diagramTitle", true)
+    .classed("diagramUnderTitle", true)
+    .text(this.subtitle)
+    .attr("x",this.width/2)
+    .attr("y",this.width * 1.1)
   }
 
   //render line corresponding to data

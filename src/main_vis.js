@@ -12,8 +12,8 @@ import MultiRadarPlot from './modules/MultiRadarPlot.js';
 
 let dataLoader = new DataLoader();
 
-const svg_width = window.innerWidth * 0.7;
-const svg_height = window.innerHeight;
+const svg_width = window.innerWidth;
+const svg_height = window.innerHeight * 0.7;
 
 //main svg container
 let svgContainer = d3.select("body").append("svg")
@@ -24,11 +24,14 @@ let svgContainer = d3.select("body").append("svg")
 const chartWidth = svg_width * 0.25;
 const largeChartWidth = svg_width * 0.5;
 
-const chart1Centre = [svg_width*0.35,svg_height*0.2];
-const chart2Centre = [svg_width*0.15,svg_height*0.5];
-const chart3Centre = [svg_width*0.35,svg_height*0.8];
+const chart1Centre = [svg_width*0.17,svg_height*0.5];
+const chart2Centre = [svg_width*0.5,svg_height*0.5];
+const chart3Centre = [svg_width*0.83,svg_height*0.5];
+
+
 const bigChartCentre = [svg_width * 0.75,svg_height*0.5];
 
+const subtitles = ["Deaths per billion journeys", "Deaths per billion hours", "Deaths per billion kilometres"]
 
 
 
@@ -53,14 +56,15 @@ let dataWait = setInterval(function(){
 
 function render(){
 
-  let plot1 = new RadarPlot(slot1, chartWidth, chart1Centre, dataLoader.getColNames(), dataLoader.getByJourney(), "#406E8E", "Journey");
 
-  let plot2 = new RadarPlot(slot2, chartWidth, chart2Centre, dataLoader.getColNames(), dataLoader.getByHour(), "#E63946", "Hour");
+  let plot1 = new RadarPlot(slot1, chartWidth, chart1Centre, dataLoader.getColNames(), dataLoader.getByJourney(), "#406E8E", "Journey", subtitles[0]);
 
-  let plot3 = new RadarPlot(slot3, chartWidth, chart3Centre, dataLoader.getColNames(), dataLoader.getByKm(), "#659B5E", "KM");
+  let plot2 = new RadarPlot(slot2, chartWidth, chart2Centre, dataLoader.getColNames(), dataLoader.getByHour(), "#E63946", "Time",  subtitles[1]);
+
+  let plot3 = new RadarPlot(slot3, chartWidth, chart3Centre, dataLoader.getColNames(), dataLoader.getByKm(), "#659B5E", "Distance",  subtitles[2]);
 
 
-  let bigPlot = new MultiRadarPlot(slot4, largeChartWidth, bigChartCentre, dataLoader.getColNames(), dataLoader.getAllData(), ["#406E8E","#E63946","#659B5E"], "All...");
+  // let bigPlot = new MultiRadarPlot(slot4, largeChartWidth, bigChartCentre, dataLoader.getColNames(), dataLoader.getAllData(), ["#406E8E","#E63946","#659B5E"], "All...");
 
 
 }
