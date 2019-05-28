@@ -16,7 +16,7 @@ h1 {
   font-family: 'Lobster', cursive;
   font-size: 12vh;
   /* margin-left:4vw; */
-  margin-bottom:2vh;
+  margin-bottom:0vh;
   margin-top:2vh;
   /* transform:rotate(340deg) translate(0,-3vh); */
   /* transform:rotate(340deg); */
@@ -28,7 +28,7 @@ h2 {
   font-size: 3vh;
   /* font-style:italic; */
   font-weight:100;
-  margin-top:-4vh;
+  margin-top:-6vh;
   margin-bottom: 4vh;
   text-align: center;
   letter-spacing:0.3vh;
@@ -123,6 +123,13 @@ circle.titleCircles{
   stroke-width: 0.2vh;
 }
 
+/* circle.iconCircles{
+  fill: none;
+  stroke: #08202A;
+  stroke-width: 0.2vh;
+} */
+
+
 .dataLine {
   stroke:black;
   stroke-width:3;
@@ -147,10 +154,7 @@ circle.titleCircles{
 }
 
 .popupbox {
-  fill:grey;
-  width:9vw;
-  height:2.5vh;
-
+  fill:#08202A;
 }
 
 text.popupbox {
@@ -159,15 +163,16 @@ text.popupbox {
   text-anchor:middle;
 }
 
+
 .popupDiv {
   /* fill:grey; */
   /* width:100%;
   height:100%; */
   opacity:0;
-position:fixed;
-width:100%;
-height:100%;
-top:0px;
-left:0px;
-z-index:-1000;
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
+  z-index:-1000;
 }

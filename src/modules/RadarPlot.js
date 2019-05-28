@@ -50,23 +50,11 @@ export default class RadarPlot {
       this.axisLabels = axisLabels.slice(0,this.refPoints.length);
     }
 
-    // //square to test positioning
-    // this.plot.append("rect")
-    //   .attr("x", 0)
-    //   .attr("y", 0)
-    //   .attr("width", this.width)
-    //   .attr("height", this.width)
-    //   .style("fill","grey")
-
-    // console.log(this.dataLabels);
-    // console.log(this.dataArray);
-
-
     this.renderTitle();
     this.renderAxes();
     this.renderIcons();
-    this.renderPoints();
     this.renderDataLine();
+    this.renderPoints();
 
 
   }
@@ -92,7 +80,7 @@ export default class RadarPlot {
     .classed("diagramUnderTitle", true)
     .text(this.subtitle)
     .attr("x",this.width/2)
-    .attr("y",this.width * 1.1)
+    .attr("y",this.width * 1.2)
   }
 
   //render line corresponding to data
@@ -183,12 +171,21 @@ export default class RadarPlot {
         .classed("axis", true)
         .attr("d", lineGenerator(data))
 
+      //reference points
       this.refPoints.forEach((p) => {
         this.plot.append("circle")
         .classed("refPoint", true)
         .attr("cx", radius + ((radOff + p/this.max*invRadOff)*radius * Math.sin(angle)))
         .attr("cy", radius - ((radOff + p/this.max*invRadOff)*radius * Math.cos(angle)))
       })
+
+      //icon circles
+      let iconCircleRelSize = 0.1;
+      this.plot.append("circle")
+        .classed("titleCircles",true)
+        .attr("cx",(this.width/2) + (radius * (1+iconCircleRelSize) * Math.sin(angle)))
+        .attr("cy", (this.width/2) - (radius * (1+iconCircleRelSize) * Math.cos(angle)))
+        .attr("r", radius * iconCircleRelSize)
     }
 
     //labels for first axis
@@ -197,7 +194,7 @@ export default class RadarPlot {
       .classed("axisLabel", true)
       .text(l)
       .attr("x",radius*1.02)
-      .attr("y",radius - ( (radOff + (i+1)/this.max*invRadOff) *radius ) )
+      .attr("y",radius - ( (radOff + (i+1)/this.max*invRadOff) *radius ) + (radius*0.02) )
     });
 
     //circles?
@@ -206,8 +203,6 @@ export default class RadarPlot {
       .attr("cx",this.width/2)
       .attr("cy",this.width/2)
       .attr("r", this.width/2*radOff)
-      // .style("fill","none")
-      // .style("border","1px solid red")
 
   }
 
@@ -257,9 +252,9 @@ export default class RadarPlot {
 
     let axesArray = Object.values(this.axes);
     let angleGap = 2 * Math.PI / axesArray.length;
-    let iconRadius = this.width * 0.45;
-    let iconSize = this.width * 0.1;
-    let angleOffset = angleGap * 0.3;
+    let iconRadius = this.width * 0.55;
+    let iconSize = this.width * 0.07;
+    let angleOffset = 0;
 
     this.plot.selectAll("image")
     .data(axesArray).enter()
@@ -299,20 +294,29 @@ export default class RadarPlot {
     let container_x_offset = d3.select("svg").node().getBoundingClientRect().x;
     let container_y_offset = d3.select("svg").node().getBoundingClientRect().y;
 
-    let x_offset = width * 0.02;
+    // let x_offset = width * 0.02;
     let y_offset = width * 0.02;
 
-    d3.select("#popup").append("rect")
-      .classed("popupbox", true)
-      .attr("x",d3.event.pageX - container_x_offset + x_offset)
-      .attr("y",d3.event.pageY - container_y_offset + y_offset)
-      .attr("rx",width*0.005)
-      .attr("ry",width*0.005)
+
+
     d3.select("#popup").append("text")
       .classed("popupbox", true)
+      .attr("id","popupText")
       .text(d3.select(this).attr("val"))
-      .attr("x",d3.event.pageX - container_x_offset + x_offset + width*0.045)
+      .attr("x",d3.event.pageX - container_x_offset)
       .attr("y",d3.event.pageY - container_y_offset + y_offset + height*0.02)
+
+    let labelBB = d3.select("#popupText").node().getBoundingClientRect();
+    let labelMargin = width * 0.005;
+
+    d3.select("#popup").insert("rect","#popupText")
+      .classed("popupbox", true)
+      .attr("x",labelBB.x  - container_x_offset - labelMargin)
+      .attr("y",labelBB.y  - container_y_offset - labelMargin)
+      .attr("width",labelBB.width + 2*labelMargin)
+      .attr("height",labelBB.height + 2*labelMargin)
+      .attr("rx",width*0.005)
+      .attr("ry",width*0.005)
   }
 
   hideValue(c){
@@ -348,17 +352,24 @@ export default class RadarPlot {
     let x_offset = width * 0.02;
     let y_offset = width * 0.02;
 
-    d3.select("#popup").append("rect")
-      .classed("popupbox", true)
-      .attr("x",d3.event.pageX - container_x_offset)
-      .attr("y",d3.event.pageY - container_y_offset + y_offset)
-      .attr("rx",width*0.005)
-      .attr("ry",width*0.005)
     d3.select("#popup").append("text")
       .classed("popupbox", true)
+      .attr("id","popupText")
       .text(d3.select(this).attr("tooltip"))
-      .attr("x",d3.event.pageX - container_x_offset + x_offset + width*0.045)
+      .attr("x",d3.event.pageX - container_x_offset)
       .attr("y",d3.event.pageY - container_y_offset + y_offset + height*0.02)
+
+    let labelBB = d3.select("#popupText").node().getBoundingClientRect();
+    let labelMargin = width * 0.005;
+
+    d3.select("#popup").insert("rect","#popupText")
+      .classed("popupbox", true)
+      .attr("x",labelBB.x  - container_x_offset - labelMargin)
+      .attr("y",labelBB.y  - container_y_offset - labelMargin)
+      .attr("width",labelBB.width + 2*labelMargin)
+      .attr("height",labelBB.height + 2*labelMargin)
+      .attr("rx",width*0.005)
+      .attr("ry",width*0.005)
   }
 
     hideTooltip(c){

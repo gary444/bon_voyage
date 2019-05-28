@@ -21,7 +21,7 @@ let svgContainer = d3.select("body").append("svg")
   .attr("height", svg_height)
   .attr("id", "main_svg")
 
-const chartWidth = svg_width * 0.25;
+const chartWidth = svg_width * 0.23;
 const largeChartWidth = svg_width * 0.5;
 
 const chart1Centre = [svg_width*0.17,svg_height*0.5];
@@ -32,6 +32,8 @@ const chart3Centre = [svg_width*0.83,svg_height*0.5];
 const bigChartCentre = [svg_width * 0.75,svg_height*0.5];
 
 const subtitles = ["Deaths per billion journeys", "Deaths per billion hours", "Deaths per billion kilometres"]
+
+
 
 
 
